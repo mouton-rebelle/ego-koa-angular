@@ -30,6 +30,7 @@ app.use(function *(next){
 // initialize router
 app.use(router(app));
 require('./server/controllers/elements').init(app);
+require('./server/controllers/images').init(app);
 
 // serve static files
 app.use(serve('client/',{defer:true}));

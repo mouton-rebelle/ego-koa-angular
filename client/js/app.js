@@ -1,5 +1,3 @@
-'use strict';
-
 angular
   .module('eg0', [
     'ngCookies',
