@@ -1,8 +1,6 @@
-'use strict';
-
 angular.module('eg0')
   .controller('MainCtrl', function ($scope,$http) {
-    $http({method: 'GET', url: '/test'}).
+    $http({method: 'GET', url: '/elements/5'}).
         success(function(data, status, headers, config) {
             $scope.elements = data;
         }).

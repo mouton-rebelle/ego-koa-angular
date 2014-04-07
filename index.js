@@ -5,6 +5,15 @@ var koa  = require('koa'),
   app    = koa();
 
 
+// handle configuration (config file later)
+
+app.use(function *(next){
+  this.config = {
+    NB_PER_PAGE: 2
+  };
+  yield next;
+});
+
 // handle mysql connection
 app.use(function *(next){
   this.mysql = mysql.createConnection({
@@ -23,13 +32,13 @@ app.use(router(app));
 require('./server/controllers/elements').init(app);
 
 // serve static files
-app.use(serve('client/',{defer:true,maxage:100*3600*60*24}));
+app.use(serve('client/',{defer:true}));
 
 // logger
 app.use(function *(next){
-  var start = new Date;
+  var start = new Date();
   yield next;
-  var ms = new Date - start;
+  var ms = new Date() - start;
   console.log('%s %s - %s', this.method, this.url, ms);
 });
 

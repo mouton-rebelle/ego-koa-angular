@@ -14,7 +14,9 @@
     "gulp-compass": "^1.1.8",
     "tiny-lr": "0.0.5",
     "gulp-util": "^2.2.14",
-    "gulp-watch": "^0.5.3"
+    "gulp-watch": "^0.5.3",
+    "gulp-nodemon": "^1.0.2",
+    "gulp-concat": "^2.2.0"
   },
   "dependencies": {
     "co-mysql": "^0.3.1",
