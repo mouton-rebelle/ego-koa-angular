@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ember test</title>
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+
+
+  </head>
+
+  <body>
+
+    <script type="text/x-handlebars">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <a class="brand" href="#">Bloggr</a>
+          <ul class="nav">
+            <li>{{#link-to 'elements'}}Elements{{/link-to}}</li>
+          </ul>
+        </div>
+      </div>
+
+      {{outlet}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="elements">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <ul class="list-group">
+              {{#each}}
+                <li {{bind-attr class=":list-group-item visible:list-group-item-success"}}>
+                  {{#link-to 'element' this}}{{title}}{{/link-to}}
+                </li>
+              {{/each}}
+              <li class="list-group-item">{{input type="text" action="add" class="form-control" value=newTitle }}</li>
+            </ul>
+          </div>
+          <div class="col-md-9">
+            {{ outlet }}
+          </div>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="element">
+    <form class="form form-horizontal">
+      <div class="form-group">
+        <label for="title">Title</label>
+        {{input type="text" class="form-control" id="title" value=title }}
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        {{textarea class="form-control" id="description" value=description }}
+      </div>
+      <div class="checkbox">
+        <label>
+          {{input type="checkbox" id="visible" checked=visible }}
+        visible</label>
+      </div>
+      <div class="form-action">
+      <button {{action 'save'}} class="btn btn-primary">Save</button>
+      <button {{action 'delete'}} class="btn btn-danger">Delete</button>
+      </div>
+    </form>
+    </script>
+
+
+    <script src="/components/jquery/dist/jquery.js"></script>
+    <script src="/components/handlebars/handlebars.js"></script>
+    <script src="/components/ember/ember.js"></script>
+    <script src="/components/ember-data/ember-data.js"></script>
+
+    <script src="/javascripts/app.js"></script>
+    <script src="/javascripts/router.js"></script>
+    <script src="/javascripts/models/element.js"></script>
+
+  </body>
+</html>

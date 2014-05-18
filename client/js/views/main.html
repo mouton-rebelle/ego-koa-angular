@@ -1,4 +1,18 @@
-<div ng-repeat="e in elements">
-  <h3>{{ e.label }}</h3>
-  <img ng-src="/uploads/eg0/orig/{{e.file}}" />
+  <script type="text/ng-template" id="element-1">
+    <h3>{{ e.label }}</h3>
+    <p>{{ e.decription }}</p>
+    <a href="/images/{{e.file}}" title="{{e.id}}"><img ng-src="/thumb/800/{{e.file}}" /></a>
+  </script>
+
+  <script type="text/ng-template" id="element-2">
+    <h3 ng-if="e.id">{{ e.label }}</h3>
+    <p ng-if="e.id">{{ e.description }}</p>
+    <ul ng-class="{horizontal:e.horizontal}">
+      <li ng-repeat="e in e.elements" ng-include="'element-'+e.type" ng-style="{width:e.ratio+'%'}"></li>
+    </ul>
+  </script>
+
+<div ng-repeat="e in elements" ng-include="'element-'+e.type" class="element">
+
+
 </div>

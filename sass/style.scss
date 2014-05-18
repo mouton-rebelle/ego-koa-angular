@@ -1,9 +1,42 @@
+@import "compass/reset";
+@import "compass/css3";
+
 body{
     font-family: arial;
+    background: #2f2f2f;
+    color:#FFF;
 }
 .container{
-    width:600px;
+    margin:0 auto;
+    position: relative;
+    max-width:1100px;
     img{
         max-width: 100%;
     }
+}
+.element{
+    background:#000;
+    padding:15px;
+    margin-bottom: 50px;
+    &:after{
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+    }
+    li{
+        @include box-sizing(border-box);
+    }
+}
+.horizontal li{
+    float: left;
+    &:last-child:after{
+        content:'';
+        clear:both;
+        display:block;
+    }
+}
+ul h3, ul p{
+    display: none
 }

@@ -1,26 +1,49 @@
-var router = require('koa-router'),
-    im = require('imagickal'),
-    fs = require('fs');
-    thunkify = require('thunkify');
+var router      = require('koa-router'),
+    im          = require('imagickal'),
+    fs          = require('fs');
+    thunkify    = require('thunkify');
 
-var read = thunkify(fs.readFile);
+var readGenerator   = thunkify(fs.readFile);
+var existsGenerator = thunkify(fs.exists);
 
 exports.init = function (app) {
   app.get('thumb','/thumb/:width/:file', getThumb);
+  app.get('images','/images/:file', getOriginalFile);
 };
 
 function *getThumb(next) {
-  var source = __dirname + '/../../client/uploads/eg0/orig/'+this.params.file;
-  var dest   = __dirname + '/../../client/uploads/eg0/thumbs/'+this.params.file;
-  var redir = '/uploads/eg0/thumbs/'+this.params.file;
-  var actions =  {
-    resize: { width: this.params.width },
-    strip:true,
-    quality: 90
-  };
+  var path = __dirname + '/../../client/uploads/' + this.config.SITE_ID;
+  var dest = path + '/thumbs/'+this.params.width+'__'+this.params.file;
 
-  yield im.transform(source, dest, actions);
+  var found = false;
+  try{
+    found = yield existsGenerator(dest);
+  } catch(e)
+  {
+    // thunkify gets mixed up there...
+    if (e === true)
+    {
+      found = true;
+    }
+  }
+  if (!found)
+  {
+    var actions   = {
+      resize:   { width: this.params.width },
+      strip:    true,
+      quality:  90
+    };
+    yield im.transform( path + '/orig/'+this.params.file, dest, actions);
+  }
   this.type = 'image/jpg';
-  this.body = yield read(dest);
+  this.body = yield readGenerator(dest);
+  yield next;
+}
+
+function *getOriginalFile(next)
+{
+  var dest = __dirname + '/../../client/uploads/' + this.config.SITE_ID + '/orig/' + this.params.file;
+  this.type = 'image/jpg';
+  this.body = yield readGenerator(dest);
   yield next;
 }
