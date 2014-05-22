@@ -33,8 +33,9 @@ gulp.task('watch', function() {
       return console.log(err);
     }
   });
-
-  nodemon({ script: 'index.js', ext: 'js', ignore: paths.client, nodeArgs: ['--harmony'] })
+var ig = paths.client;
+ig.push('node_modules');
+  nodemon({ script: 'index.js', ext: 'js', ignore: ig, nodeArgs: ['--harmony'] })
     .on('restart', function () {
       console.log('restarted!');
   });

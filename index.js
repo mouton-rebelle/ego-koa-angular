@@ -25,7 +25,6 @@ var elements = wrap(db.get('elements'));
 
 var elementsResource = new Resource('elements', {
 
-
   // GET /elements
   index: function *(next) {
     var els = yield {elements:elements.find({})};
@@ -82,7 +81,7 @@ app.use(elementsResource.middleware());
 
 // serve static files
 // ====================================================
-app.use(serve('client/',{defer:true}));
+app.use(serve('client/'));
 
 
 app.listen(3000);
